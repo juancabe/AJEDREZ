@@ -1,0 +1,397 @@
+ASxxxx Assembler V05.00  (Motorola 6809), page 1.
+Hexidecimal [16-Bits]
+
+
+
+                              1 ; Ensamblador Motorola 6809
+                              2 
+                              3 ; Programa de ejemplo: hola.asm
+                              4 
+                              5         	.area PROG (ABS)
+                              6 
+   0100                       7         	.org 0x100
+                              8 
+                              9 
+                             10 
+                             11 ; Texto coordenadas introducidas
+                             12 
+   0100 0A 4C 61 73 20 63    13 texto_coordenadas_introducidas:	.ascii "\nLas coordenadas introducidas son: \n"
+        6F 6F 72 64 65 6E
+        61 64 61 73 20 69
+        6E 74 72 6F 64 75
+        63 69 64 61 73 20
+        73 6F 6E 3A 20 0A
+   0124 00                   14 				.byte 0
+                             15 
+                             16 
+                             17 ; Texto coordenadas iniciales
+   0125 0A 49 6E 74 72 6F    18 texto_coordenadas_iniciales:	.ascii "\nIntroduzca las coordenadas iniciales de los jugadores.\n"
+        64 75 7A 63 61 20
+        6C 61 73 20 63 6F
+        6F 72 64 65 6E 61
+        64 61 73 20 69 6E
+        69 63 69 61 6C 65
+        73 20 64 65 20 6C
+        6F 73 20 6A 75 67
+        61 64 6F 72 65 73
+        2E 0A
+   015D 4C 61 73 20 63 6F    19 				.ascii "Las coordenadas son de 0 a 7, siendo 0 la esquina superior izquierda.\n"
+        6F 72 64 65 6E 61
+        64 61 73 20 73 6F
+        6E 20 64 65 20 30
+        20 61 20 37 2C 20
+        73 69 65 6E 64 6F
+        20 30 20 6C 61 20
+        65 73 71 75 69 6E
+        61 20 73 75 70 65
+        72 69 6F 72 20 69
+        7A 71 75 69 65 72
+        64 61 2E 0A
+   01A3 44 65 62 65 73 20    20 				.ascii "Debes introducir las dos coordenadas de cada jugador en el mismo texto.\n"
+        69 6E 74 72 6F 64
+        75 63 69 72 20 6C
+        61 73 20 64 6F 73
+        20 63 6F 6F 72 64
+        65 6E 61 64 61 73
+        20 64 65 20 63 61
+        64 61 20 6A 75 67
+        61 64 6F 72 20 65
+        6E 20 65 6C 20 6D
+        69 73 6D 6F 20 74
+ASxxxx Assembler V05.00  (Motorola 6809), page 2.
+Hexidecimal [16-Bits]
+
+
+
+        65 78 74 6F 2E 0A
+   01EB 50 6F 72 20 65 6A    21 				.ascii "Por ejemplo: '0 0 7 7¡, pero sin espacios entre medias '0077'\n"
+        65 6D 70 6C 6F 3A
+        20 27 30 20 30 20
+        37 20 37 42 21 2C
+        20 70 65 72 6F 20
+        73 69 6E 20 65 73
+        70 61 63 69 6F 73
+        20 65 6E 74 72 65
+        20 6D 65 64 69 61
+        73 20 27 30 30 37
+        37 27 0A
+   022A 49 6E 74 72 6F 64    22 				.ascii "Introduzca las coordenadas: \n"
+        75 7A 63 61 20 6C
+        61 73 20 63 6F 6F
+        72 64 65 6E 61 64
+        61 73 3A 20 0A
+   0247 00                   23 				.byte   0       ; 0 es CTRL-@: fin de cadena
+                             24 
+                             25 ; Variable char
+   0248 00                   26 char:		.byte 0
+                             27 
+                             28 ;; Variables de coordenadas las coordenadas son de 0 a 7, siendo 0 la esquina superior izquierda
+                             29 
+                             30 ; Jugador 1
+   0249 00                   31 x1:		.byte 0
+   024A 00                   32 y1:		.byte 0
+                             33 ; Jugador 2
+   024B 00                   34 x2:		.byte 0
+   024C 00                   35 y2:		.byte 0
+   024D 00                   36 cero:		.byte 0
+                             37 
+                             38 
+                             39 
+                             40 ; Tablero de ajedrez
+   024E 0A 20 2D 2D 2D 20    41 tablero:	.ascii "\n --- --- --- --- --- --- --- --- \n"
+        2D 2D 2D 20 2D 2D
+        2D 20 2D 2D 2D 20
+        2D 2D 2D 20 2D 2D
+        2D 20 2D 2D 2D 20
+        2D 2D 2D 20 0A
+   0271 7C 20 20 20 7C 20    42 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   0293 20 2D 2D 2D 20 2D    43 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   02B5 7C 20 20 20 7C 20    44 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+ASxxxx Assembler V05.00  (Motorola 6809), page 3.
+Hexidecimal [16-Bits]
+
+
+
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   02D7 20 2D 2D 2D 20 2D    45 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   02F9 7C 20 20 20 7C 20    46 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   031B 20 2D 2D 2D 20 2D    47 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   033D 7C 20 20 20 7C 20    48 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   035F 20 2D 2D 2D 20 2D    49 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   0381 7C 20 20 20 7C 20    50 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   03A3 20 2D 2D 2D 20 2D    51 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   03C5 7C 20 20 20 7C 20    52 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   03E7 20 2D 2D 2D 20 2D    53 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+ASxxxx Assembler V05.00  (Motorola 6809), page 4.
+Hexidecimal [16-Bits]
+
+
+
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   0409 7C 20 20 20 7C 20    54 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   042B 20 2D 2D 2D 20 2D    55 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   044D 7C 20 20 20 7C 20    56 		.ascii "|   |   |   |   |   |   |   |   |\n"
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 20 20 20
+        7C 20 20 20 7C 20
+        20 20 7C 0A
+   046F 20 2D 2D 2D 20 2D    57 		.ascii " --- --- --- --- --- --- --- --- \n"
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 2D 2D 2D
+        20 2D 2D 2D 20 2D
+        2D 2D 20 0A
+   0491 00                   58         	.byte   0       ; 0 es CTRL-@: fin de cadena
+                             59 ; Menú de opciones
+                             60 ;	(1) Introducir las coordenadas iniciales.
+                             61 ;	(2) Jugar.
+                             62 ;	(S) Salir.
+   0492 0A 0A 20 28 31 29    63 menu:		.ascii "\n\n (1) Introducir las coordenadas iniciales.\n"
+        20 49 6E 74 72 6F
+        64 75 63 69 72 20
+        6C 61 73 20 63 6F
+        6F 72 64 65 6E 61
+        64 61 73 20 69 6E
+        69 63 69 61 6C 65
+        73 2E 0A
+   04BF 20 28 32 29 20 4A    64 		.ascii " (2) Jugar.\n"
+        75 67 61 72 2E 0A
+   04CB 20 28 53 29 20 53    65 		.ascii " (S) Salir.\n\n"
+        61 6C 69 72 2E 0A
+        0A
+   04D8 00                   66 		.byte   0       ; 0 es CTRL-@: fin de cadena
+                             67 
+                             68 
+                             69 
+                             70         	.globl programa
+   04D9                      71 programa:
+   04D9 8E 04 92      [ 3]   72 		ldx #menu
+   04DC BD 00 68      [ 8]   73 		jsr imprime_cadena ; Imprime el menú
+   04DF BD 00 76      [ 8]   74 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+   04E2 B6 02 48      [ 5]   75 		lda char
+ASxxxx Assembler V05.00  (Motorola 6809), page 5.
+Hexidecimal [16-Bits]
+
+
+
+   04E5 81 31         [ 2]   76 		cmpa #49 ; Código ASCII de 1
+   04E7 BD 00 00      [ 8]   77 		jsr coordenadas_iniciales ; Si se ha introducido 1, se introducen las coordenadas iniciales
+                             78 
+                             79 		;; Acabar el programa
+   04EA 4F            [ 2]   80 		clra
+   04EB B7 FF 01      [ 5]   81         	sta 0xFF01
+                             82 
+   FFFE                      83         	.org 0xFFFE     ; Vector de RESET
+   FFFE 04 D9                84         	.word programa
+                             85 
+   0000                      86 coordenadas_iniciales:
+   0000 34 02         [ 6]   87 	pshs a
+   0002 34 10         [ 6]   88 	pshs x
+   0004 8E 01 25      [ 3]   89 	ldx #texto_coordenadas_iniciales
+   0007 BD 00 68      [ 8]   90 	jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
+                             91 
+   000A BD 00 76      [ 8]   92 	jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+   000D B6 02 48      [ 5]   93 	lda char
+                             94 	; Comprobar que el caracter introducido es un número
+   0010 81 30         [ 2]   95 	cmpa #48
+   0012 25 EC         [ 3]   96 	blo coordenadas_iniciales
+   0014 81 39         [ 2]   97 	cmpa #57
+   0016 22 E8         [ 3]   98 	bhi coordenadas_iniciales
+                             99 	; Guardar el número en x1
+   0018 B7 02 49      [ 5]  100 	sta x1
+                            101 	; Consigue el siguiente caracter
+   001B BD 00 76      [ 8]  102 	jsr consigue_caracter_char
+                            103 	; Comprobar que el caracter introducido es un número
+   001E 81 30         [ 2]  104 	cmpa #48
+   0020 25 DE         [ 3]  105 	blo coordenadas_iniciales
+   0022 81 39         [ 2]  106 	cmpa #57
+   0024 22 DA         [ 3]  107 	bhi coordenadas_iniciales
+                            108 	; Guardar el número en y1
+   0026 B7 02 4A      [ 5]  109 	sta y1
+                            110 	; Consigue el siguiente caracter
+   0029 BD 00 76      [ 8]  111 	jsr consigue_caracter_char
+                            112 	; Comprobar que el caracter introducido es un número
+   002C 81 30         [ 2]  113 	cmpa #48
+   002E 25 D0         [ 3]  114 	blo coordenadas_iniciales
+   0030 81 39         [ 2]  115 	cmpa #57
+   0032 22 CC         [ 3]  116 	bhi coordenadas_iniciales
+                            117 	; Guardar el número en x2
+   0034 B7 02 4B      [ 5]  118 	sta x2
+                            119 	; Consigue el siguiente caracter
+   0037 BD 00 76      [ 8]  120 	jsr consigue_caracter_char
+                            121 	; Comprobar que el caracter introducido es un número
+   003A 81 30         [ 2]  122 	cmpa #48
+   003C 25 C2         [ 3]  123 	blo coordenadas_iniciales
+   003E 81 39         [ 2]  124 	cmpa #57
+   0040 22 BE         [ 3]  125 	bhi coordenadas_iniciales
+                            126 	; Guardar el número en y2
+   0042 B7 02 4C      [ 5]  127 	sta y2
+                            128 	; Mostrar en pantalla las coordenadas introducidas
+   0045 8E 01 00      [ 3]  129 	ldx #texto_coordenadas_introducidas
+   0048 BD 00 68      [ 8]  130 	jsr imprime_cadena
+ASxxxx Assembler V05.00  (Motorola 6809), page 6.
+Hexidecimal [16-Bits]
+
+
+
+   004B 8E 02 49      [ 3]  131 	ldx #x1
+   004E BD 00 68      [ 8]  132 	jsr imprime_cadena
+   0051 8E 02 4A      [ 3]  133 	ldx #y1
+   0054 BD 00 68      [ 8]  134 	jsr imprime_cadena
+   0057 8E 02 4B      [ 3]  135 	ldx #x2
+   005A BD 00 68      [ 8]  136 	jsr imprime_cadena
+   005D 8E 02 4C      [ 3]  137 	ldx #y2
+   0060 BD 00 68      [ 8]  138 	jsr imprime_cadena
+   0063 35 10         [ 6]  139 	puls x
+   0065 35 02         [ 6]  140 	puls a
+   0067 39            [ 5]  141 	rts
+                            142 
+                            143 
+                            144 
+                            145 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            146 ; imprime_cadena                                                   ;
+                            147 ;     saca por la pantalla la cadena acabada en '\0 apuntada por X ;
+                            148 ;                                                                  ;
+                            149 ;   Entrada: X-direcciOn de comienzo de la cadena                  ;
+                            150 ;   Salida:  ninguna                                               ;
+                            151 ;   Registros afectados: X, CC.                                    ;
+                            152 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   0068                     153 imprime_cadena:
+   0068 34 02         [ 6]  154         pshs a
+   006A A6 80         [ 6]  155 sgte:   lda ,x+
+   006C 27 05         [ 3]  156         beq ret_imprime_cadena
+   006E B7 FF 00      [ 5]  157         sta 0xFF00
+   0071 20 F7         [ 3]  158         bra sgte
+   0073                     159 ret_imprime_cadena:
+   0073 35 02         [ 6]  160         puls a
+   0075 39            [ 5]  161         rts
+                            162 
+                            163 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            164 ; consigue_caracter_char                                           ;
+                            165 ;     guarda en la variable char el caracter introducido por el    ;
+                            166 ;     teclado.                                                     ;
+                            167 ;                                                                  ;
+                            168 ;   Entrada: ninguna                                               ;
+                            169 ;   Salida:  char                                                  ;
+                            170 ;   Registros afectados: X, CC.                                    ;
+                            171 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   0076                     172 consigue_caracter_char:
+   0076 34 02         [ 6]  173 	pshs a
+   0078 B6 FF 02      [ 5]  174 	lda 0xFF02
+   007B B7 02 48      [ 5]  175 	sta char
+   007E 35 02         [ 6]  176 	puls a
+   0080 39            [ 5]  177 	rts
+                            178 
+                            179 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            180 ; coordenadas_iniciales				  	           ;
+                            181 ;     guarda en las variables x1, y1, x2, y2 las coordenadas       ;
+                            182 ;     introducidas por el teclado.                                 ;
+                            183 ;     Mostrar en pantalla un texto que indique que se deben        ;
+                            184 ;     introducir las coordenadas y como introducirlas.             ;
+                            185 ;                                                                  ;
+ASxxxx Assembler V05.00  (Motorola 6809), page 7.
+Hexidecimal [16-Bits]
+
+
+
+                            186 ;   Entrada: ninguna                                               ;
+                            187 ;   Salida:  x1, y1, x2, y2                                        ;
+                            188 ;   Registros afectados: X, CC.                                    ;
+                            189 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            190 
+ASxxxx Assembler V05.00  (Motorola 6809), page 8.
+Hexidecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
+    .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
+  2 cero               024D R   |   2 char               0248 R
+  2 consigue_carac     0076 R   |   2 coordenadas_in     0000 R
+  2 imprime_cadena     0068 R   |   2 menu               0492 R
+  2 programa           04D9 GR  |   2 ret_imprime_ca     0073 R
+  2 sgte               006A R   |   2 tablero            024E R
+  2 texto_coordena     0125 R   |   2 texto_coordena     0100 R
+  2 x1                 0249 R   |   2 x2                 024B R
+  2 y1                 024A R   |   2 y2                 024C R
+
+ASxxxx Assembler V05.00  (Motorola 6809), page 9.
+Hexidecimal [16-Bits]
+
+Area Table
+
+[_CSEG]
+   0 _CODE            size    0   flags C080
+   2 PROG             size   81   flags  908
+[_DSEG]
+   1 _DATA            size    0   flags C0C0
+
