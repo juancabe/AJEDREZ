@@ -235,8 +235,8 @@ Hexidecimal [16-Bits]
                              70         	.globl programa
    04D9                      71 programa:
    04D9 8E 04 92      [ 3]   72 		ldx #menu
-   04DC BD 00 71      [ 8]   73 		jsr imprime_cadena ; Imprime el menú
-   04DF BD 00 7F      [ 8]   74 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+   04DC BD 00 5F      [ 8]   73 		jsr imprime_cadena ; Imprime el menú
+   04DF BD 00 6D      [ 8]   74 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
    04E2 B6 02 48      [ 5]   75 		lda char
 ASxxxx Assembler V05.00  (Motorola 6809), page 5.
 Hexidecimal [16-Bits]
@@ -257,9 +257,9 @@ Hexidecimal [16-Bits]
    0000 34 02         [ 6]   87 		pshs a
    0002 34 10         [ 6]   88 		pshs x
    0004 8E 01 25      [ 3]   89 		ldx #texto_coordenadas_iniciales
-   0007 BD 00 71      [ 8]   90 		jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
+   0007 BD 00 5F      [ 8]   90 		jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
                              91 
-   000A BD 00 7F      [ 8]   92 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+   000A BD 00 6D      [ 8]   92 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
    000D B6 02 48      [ 5]   93 		lda char
                              94 		; Comprobar que el caracter introducido es un número
    0010 81 30         [ 2]   95 		cmpa #48
@@ -271,7 +271,7 @@ Hexidecimal [16-Bits]
                             101 
                             102 
                             103 		; Consigue el siguiente caracter
-   001B BD 00 7F      [ 8]  104 		jsr consigue_caracter_char
+   001B BD 00 6D      [ 8]  104 		jsr consigue_caracter_char
    001E B6 02 48      [ 5]  105 		lda char
                             106 		; Comprobar que el caracter introducido es un número
    0021 81 30         [ 2]  107 		cmpa #48
@@ -283,7 +283,7 @@ Hexidecimal [16-Bits]
                             113 
                             114 
                             115 		; Consigue el siguiente caracter
-   002C BD 00 7F      [ 8]  116 		jsr consigue_caracter_char
+   002C BD 00 6D      [ 8]  116 		jsr consigue_caracter_char
    002F B6 02 48      [ 5]  117 		lda char
                             118 		; Comprobar que el caracter introducido es un número
    0032 81 30         [ 2]  119 		cmpa #48
@@ -295,7 +295,7 @@ Hexidecimal [16-Bits]
                             125 
                             126 
                             127 		; Consigue el siguiente caracter
-   003D BD 00 7F      [ 8]  128 		jsr consigue_caracter_char
+   003D BD 00 6D      [ 8]  128 		jsr consigue_caracter_char
    0040 B6 02 48      [ 5]  129 		lda char
                             130 		; Comprobar que el caracter introducido es un número
 ASxxxx Assembler V05.00  (Motorola 6809), page 6.
@@ -310,86 +310,80 @@ Hexidecimal [16-Bits]
                             135 		; Guardar el número en y2
    004B B7 02 4C      [ 5]  136 		sta y2
                             137 
-                            138 		
+                            138 
                             139 		; Mostrar en pantalla las coordenadas introducidas
    004E 8E 01 00      [ 3]  140 		ldx #texto_coordenadas_introducidas
-   0051 BD 00 71      [ 8]  141 		jsr imprime_cadena
+   0051 BD 00 5F      [ 8]  141 		jsr imprime_cadena
    0054 8E 02 49      [ 3]  142 		ldx #x1
-   0057 BD 00 71      [ 8]  143 		jsr imprime_cadena
-   005A 8E 02 4A      [ 3]  144 		ldx #y1
-   005D BD 00 71      [ 8]  145 		jsr imprime_cadena
-   0060 8E 02 4B      [ 3]  146 		ldx #x2
-   0063 BD 00 71      [ 8]  147 		jsr imprime_cadena
-   0066 8E 02 4C      [ 3]  148 		ldx #y2
-   0069 BD 00 71      [ 8]  149 		jsr imprime_cadena
-   006C 35 10         [ 6]  150 		puls x
-   006E 35 02         [ 6]  151 		puls a
-   0070 39            [ 5]  152 		rts
+   0057 BD 00 5F      [ 8]  143 		jsr imprime_cadena
+   005A 35 10         [ 6]  144 		puls x
+   005C 35 02         [ 6]  145 		puls a
+   005E 39            [ 5]  146 		rts
+                            147 
+                            148 
+                            149 
+                            150 
+                            151 
+                            152 
                             153 
                             154 
-                            155 
-                            156 
-                            157 
-                            158 
-                            159 
-                            160 
-                            161 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            162 ; imprime_cadena                                                   ;
-                            163 ;     saca por la pantalla la cadena acabada en '\0 apuntada por X ;
-                            164 ;                                                                  ;
-                            165 ;   Entrada: X-direcciOn de comienzo de la cadena                  ;
-                            166 ;   Salida:  ninguna                                               ;
-                            167 ;   Registros afectados: X, CC.                                    ;
-                            168 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   0071                     169 imprime_cadena:
-   0071 34 02         [ 6]  170         pshs a
-   0073 A6 80         [ 6]  171 sgte:   lda ,x+
-   0075 27 05         [ 3]  172         beq ret_imprime_cadena
-   0077 B7 FF 00      [ 5]  173         sta 0xFF00
-   007A 20 F7         [ 3]  174         bra sgte
-   007C                     175 ret_imprime_cadena:
-   007C 35 02         [ 6]  176         puls a
-   007E 39            [ 5]  177         rts
-                            178 
-                            179 
-                            180 
-                            181 
-                            182 
-                            183 
-                            184 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            185 ; consigue_caracter_char                                           ;
+                            155 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            156 ; imprime_cadena                                                   ;
+                            157 ;     saca por la pantalla la cadena acabada en '\0 apuntada por X ;
+                            158 ;                                                                  ;
+                            159 ;   Entrada: X-direcciOn de comienzo de la cadena                  ;
+                            160 ;   Salida:  ninguna                                               ;
+                            161 ;   Registros afectados: X, CC.                                    ;
+                            162 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   005F                     163 imprime_cadena:
+   005F 34 02         [ 6]  164         pshs a
+   0061 A6 80         [ 6]  165 sgte:   lda ,x+
+   0063 27 05         [ 3]  166         beq ret_imprime_cadena
+   0065 B7 FF 00      [ 5]  167         sta 0xFF00
+   0068 20 F7         [ 3]  168         bra sgte
+   006A                     169 ret_imprime_cadena:
+   006A 35 02         [ 6]  170         puls a
+   006C 39            [ 5]  171         rts
+                            172 
+                            173 
+                            174 
+                            175 
+                            176 
+                            177 
+                            178 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            179 ; consigue_caracter_char                                           ;
+                            180 ;     guarda en la variable char el caracter introducido por el    ;
+                            181 ;     teclado.                                                     ;
+                            182 ;                                                                  ;
+                            183 ;   Entrada: ninguna                                               ;
+                            184 ;   Salida:  char                                                  ;
+                            185 ;   Registros afectados: X, CC.                                    ;
 ASxxxx Assembler V05.00  (Motorola 6809), page 7.
 Hexidecimal [16-Bits]
 
 
 
-                            186 ;     guarda en la variable char el caracter introducido por el    ;
-                            187 ;     teclado.                                                     ;
-                            188 ;                                                                  ;
-                            189 ;   Entrada: ninguna                                               ;
-                            190 ;   Salida:  char                                                  ;
-                            191 ;   Registros afectados: X, CC.                                    ;
-                            192 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            193 
-   007F                     194 consigue_caracter_char:
-   007F 34 02         [ 6]  195 	pshs a
-   0081 B6 FF 02      [ 5]  196 	lda 0xFF02
-   0084 B7 02 48      [ 5]  197 	sta char
-   0087 35 02         [ 6]  198 	puls a
-   0089 39            [ 5]  199 	rts
-                            200 
-                            201 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            202 ; coordenadas_iniciales				  	           ;
-                            203 ;     guarda en las variables x1, y1, x2, y2 las coordenadas       ;
-                            204 ;     introducidas por el teclado.                                 ;
-                            205 ;     Mostrar en pantalla un texto que indique que se deben        ;
-                            206 ;     introducir las coordenadas y como introducirlas.             ;
-                            207 ;                                                                  ;
-                            208 ;   Entrada: ninguna                                               ;
-                            209 ;   Salida:  x1, y1, x2, y2                                        ;
-                            210 ;   Registros afectados: X, CC.                                    ;
-                            211 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            212 
+                            186 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            187 
+   006D                     188 consigue_caracter_char:
+   006D 34 02         [ 6]  189 	pshs a
+   006F B6 FF 02      [ 5]  190 	lda 0xFF02
+   0072 B7 02 48      [ 5]  191 	sta char
+   0075 35 02         [ 6]  192 	puls a
+   0077 39            [ 5]  193 	rts
+                            194 
+                            195 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            196 ; coordenadas_iniciales				  	           ;
+                            197 ;     guarda en las variables x1, y1, x2, y2 las coordenadas       ;
+                            198 ;     introducidas por el teclado.                                 ;
+                            199 ;     Mostrar en pantalla un texto que indique que se deben        ;
+                            200 ;     introducir las coordenadas y como introducirlas.             ;
+                            201 ;                                                                  ;
+                            202 ;   Entrada: ninguna                                               ;
+                            203 ;   Salida:  x1, y1, x2, y2                                        ;
+                            204 ;   Registros afectados: X, CC.                                    ;
+                            205 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            206 
 ASxxxx Assembler V05.00  (Motorola 6809), page 8.
 Hexidecimal [16-Bits]
 
@@ -398,10 +392,10 @@ Symbol Table
     .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
     .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
   2 cero               024D R   |   2 char               0248 R
-  2 consigue_carac     007F R   |   2 coordenadas_in     0000 R
-  2 imprime_cadena     0071 R   |   2 menu               0492 R
-  2 programa           04D9 GR  |   2 ret_imprime_ca     007C R
-  2 sgte               0073 R   |   2 tablero            024E R
+  2 consigue_carac     006D R   |   2 coordenadas_in     0000 R
+  2 imprime_cadena     005F R   |   2 menu               0492 R
+  2 programa           04D9 GR  |   2 ret_imprime_ca     006A R
+  2 sgte               0061 R   |   2 tablero            024E R
   2 texto_coordena     0125 R   |   2 texto_coordena     0100 R
   2 x1                 0249 R   |   2 x2                 024B R
   2 y1                 024A R   |   2 y2                 024C R
@@ -413,7 +407,7 @@ Area Table
 
 [_CSEG]
    0 _CODE            size    0   flags C080
-   2 PROG             size   8A   flags  908
+   2 PROG             size   78   flags  908
 [_DSEG]
    1 _DATA            size    0   flags C0C0
 

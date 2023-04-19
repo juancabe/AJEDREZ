@@ -135,17 +135,11 @@ coordenadas_iniciales:
 		; Guardar el número en y2
 		sta y2
 
-		
+
 		; Mostrar en pantalla las coordenadas introducidas
 		ldx #texto_coordenadas_introducidas
 		jsr imprime_cadena
 		ldx #x1
-		jsr imprime_cadena
-		ldx #y1
-		jsr imprime_cadena
-		ldx #x2
-		jsr imprime_cadena
-		ldx #y2
 		jsr imprime_cadena
 		puls x
 		puls a
