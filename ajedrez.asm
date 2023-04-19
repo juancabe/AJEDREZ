@@ -84,61 +84,77 @@ programa:
         	.word programa
 
 coordenadas_iniciales:
-	pshs a
-	pshs x
-	ldx #texto_coordenadas_iniciales
-	jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
+		pshs a
+		pshs x
+		ldx #texto_coordenadas_iniciales
+		jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
 
-	jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
-	lda char
-	; Comprobar que el caracter introducido es un número
-	cmpa #48
-	blo coordenadas_iniciales
-	cmpa #57
-	bhi coordenadas_iniciales
-	; Guardar el número en x1
-	sta x1
-	; Consigue el siguiente caracter
-	jsr consigue_caracter_char
-	; Comprobar que el caracter introducido es un número
-	cmpa #48
-	blo coordenadas_iniciales
-	cmpa #57
-	bhi coordenadas_iniciales
-	; Guardar el número en y1
-	sta y1
-	; Consigue el siguiente caracter
-	jsr consigue_caracter_char
-	; Comprobar que el caracter introducido es un número
-	cmpa #48
-	blo coordenadas_iniciales
-	cmpa #57
-	bhi coordenadas_iniciales
-	; Guardar el número en x2
-	sta x2
-	; Consigue el siguiente caracter
-	jsr consigue_caracter_char
-	; Comprobar que el caracter introducido es un número
-	cmpa #48
-	blo coordenadas_iniciales
-	cmpa #57
-	bhi coordenadas_iniciales
-	; Guardar el número en y2
-	sta y2
-	; Mostrar en pantalla las coordenadas introducidas
-	ldx #texto_coordenadas_introducidas
-	jsr imprime_cadena
-	ldx #x1
-	jsr imprime_cadena
-	ldx #y1
-	jsr imprime_cadena
-	ldx #x2
-	jsr imprime_cadena
-	ldx #y2
-	jsr imprime_cadena
-	puls x
-	puls a
-	rts
+		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #57
+		bhi coordenadas_iniciales
+		; Guardar el número en x1
+		sta x1
+
+
+		; Consigue el siguiente caracter
+		jsr consigue_caracter_char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #57
+		bhi coordenadas_iniciales
+		; Guardar el número en y1
+		sta y1
+
+
+		; Consigue el siguiente caracter
+		jsr consigue_caracter_char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #57
+		bhi coordenadas_iniciales
+		; Guardar el número en x2
+		sta x2
+
+
+		; Consigue el siguiente caracter
+		jsr consigue_caracter_char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #57
+		bhi coordenadas_iniciales
+		; Guardar el número en y2
+		sta y2
+
+		
+		; Mostrar en pantalla las coordenadas introducidas
+		ldx #texto_coordenadas_introducidas
+		jsr imprime_cadena
+		ldx #x1
+		jsr imprime_cadena
+		ldx #y1
+		jsr imprime_cadena
+		ldx #x2
+		jsr imprime_cadena
+		ldx #y2
+		jsr imprime_cadena
+		puls x
+		puls a
+		rts
+
+
+
+
+
 
 
 
@@ -160,6 +176,11 @@ ret_imprime_cadena:
         puls a
         rts
 
+
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; consigue_caracter_char                                           ;
 ;     guarda en la variable char el caracter introducido por el    ;
@@ -169,6 +190,7 @@ ret_imprime_cadena:
 ;   Salida:  char                                                  ;
 ;   Registros afectados: X, CC.                                    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 consigue_caracter_char:
 	pshs a
 	lda 0xFF02
