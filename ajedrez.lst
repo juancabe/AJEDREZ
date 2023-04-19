@@ -235,8 +235,8 @@ Hexidecimal [16-Bits]
                              70         	.globl programa
    04D9                      71 programa:
    04D9 8E 04 92      [ 3]   72 		ldx #menu
-   04DC BD 00 68      [ 8]   73 		jsr imprime_cadena ; Imprime el menú
-   04DF BD 00 76      [ 8]   74 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+   04DC BD 00 71      [ 8]   73 		jsr imprime_cadena ; Imprime el menú
+   04DF BD 00 7F      [ 8]   74 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
    04E2 B6 02 48      [ 5]   75 		lda char
 ASxxxx Assembler V05.00  (Motorola 6809), page 5.
 Hexidecimal [16-Bits]
@@ -254,120 +254,142 @@ Hexidecimal [16-Bits]
    FFFE 04 D9                84         	.word programa
                              85 
    0000                      86 coordenadas_iniciales:
-   0000 34 02         [ 6]   87 	pshs a
-   0002 34 10         [ 6]   88 	pshs x
-   0004 8E 01 25      [ 3]   89 	ldx #texto_coordenadas_iniciales
-   0007 BD 00 68      [ 8]   90 	jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
+   0000 34 02         [ 6]   87 		pshs a
+   0002 34 10         [ 6]   88 		pshs x
+   0004 8E 01 25      [ 3]   89 		ldx #texto_coordenadas_iniciales
+   0007 BD 00 71      [ 8]   90 		jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
                              91 
-   000A BD 00 76      [ 8]   92 	jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
-   000D B6 02 48      [ 5]   93 	lda char
-                             94 	; Comprobar que el caracter introducido es un número
-   0010 81 30         [ 2]   95 	cmpa #48
-   0012 25 EC         [ 3]   96 	blo coordenadas_iniciales
-   0014 81 39         [ 2]   97 	cmpa #57
-   0016 22 E8         [ 3]   98 	bhi coordenadas_iniciales
-                             99 	; Guardar el número en x1
-   0018 B7 02 49      [ 5]  100 	sta x1
-                            101 	; Consigue el siguiente caracter
-   001B BD 00 76      [ 8]  102 	jsr consigue_caracter_char
-                            103 	; Comprobar que el caracter introducido es un número
-   001E 81 30         [ 2]  104 	cmpa #48
-   0020 25 DE         [ 3]  105 	blo coordenadas_iniciales
-   0022 81 39         [ 2]  106 	cmpa #57
-   0024 22 DA         [ 3]  107 	bhi coordenadas_iniciales
-                            108 	; Guardar el número en y1
-   0026 B7 02 4A      [ 5]  109 	sta y1
-                            110 	; Consigue el siguiente caracter
-   0029 BD 00 76      [ 8]  111 	jsr consigue_caracter_char
-                            112 	; Comprobar que el caracter introducido es un número
-   002C 81 30         [ 2]  113 	cmpa #48
-   002E 25 D0         [ 3]  114 	blo coordenadas_iniciales
-   0030 81 39         [ 2]  115 	cmpa #57
-   0032 22 CC         [ 3]  116 	bhi coordenadas_iniciales
-                            117 	; Guardar el número en x2
-   0034 B7 02 4B      [ 5]  118 	sta x2
-                            119 	; Consigue el siguiente caracter
-   0037 BD 00 76      [ 8]  120 	jsr consigue_caracter_char
-                            121 	; Comprobar que el caracter introducido es un número
-   003A 81 30         [ 2]  122 	cmpa #48
-   003C 25 C2         [ 3]  123 	blo coordenadas_iniciales
-   003E 81 39         [ 2]  124 	cmpa #57
-   0040 22 BE         [ 3]  125 	bhi coordenadas_iniciales
-                            126 	; Guardar el número en y2
-   0042 B7 02 4C      [ 5]  127 	sta y2
-                            128 	; Mostrar en pantalla las coordenadas introducidas
-   0045 8E 01 00      [ 3]  129 	ldx #texto_coordenadas_introducidas
-   0048 BD 00 68      [ 8]  130 	jsr imprime_cadena
+   000A BD 00 7F      [ 8]   92 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+   000D B6 02 48      [ 5]   93 		lda char
+                             94 		; Comprobar que el caracter introducido es un número
+   0010 81 30         [ 2]   95 		cmpa #48
+   0012 25 EC         [ 3]   96 		blo coordenadas_iniciales
+   0014 81 39         [ 2]   97 		cmpa #57
+   0016 22 E8         [ 3]   98 		bhi coordenadas_iniciales
+                             99 		; Guardar el número en x1
+   0018 B7 02 49      [ 5]  100 		sta x1
+                            101 
+                            102 
+                            103 		; Consigue el siguiente caracter
+   001B BD 00 7F      [ 8]  104 		jsr consigue_caracter_char
+   001E B6 02 48      [ 5]  105 		lda char
+                            106 		; Comprobar que el caracter introducido es un número
+   0021 81 30         [ 2]  107 		cmpa #48
+   0023 25 DB         [ 3]  108 		blo coordenadas_iniciales
+   0025 81 39         [ 2]  109 		cmpa #57
+   0027 22 D7         [ 3]  110 		bhi coordenadas_iniciales
+                            111 		; Guardar el número en y1
+   0029 B7 02 4A      [ 5]  112 		sta y1
+                            113 
+                            114 
+                            115 		; Consigue el siguiente caracter
+   002C BD 00 7F      [ 8]  116 		jsr consigue_caracter_char
+   002F B6 02 48      [ 5]  117 		lda char
+                            118 		; Comprobar que el caracter introducido es un número
+   0032 81 30         [ 2]  119 		cmpa #48
+   0034 25 CA         [ 3]  120 		blo coordenadas_iniciales
+   0036 81 39         [ 2]  121 		cmpa #57
+   0038 22 C6         [ 3]  122 		bhi coordenadas_iniciales
+                            123 		; Guardar el número en x2
+   003A B7 02 4B      [ 5]  124 		sta x2
+                            125 
+                            126 
+                            127 		; Consigue el siguiente caracter
+   003D BD 00 7F      [ 8]  128 		jsr consigue_caracter_char
+   0040 B6 02 48      [ 5]  129 		lda char
+                            130 		; Comprobar que el caracter introducido es un número
 ASxxxx Assembler V05.00  (Motorola 6809), page 6.
 Hexidecimal [16-Bits]
 
 
 
-   004B 8E 02 49      [ 3]  131 	ldx #x1
-   004E BD 00 68      [ 8]  132 	jsr imprime_cadena
-   0051 8E 02 4A      [ 3]  133 	ldx #y1
-   0054 BD 00 68      [ 8]  134 	jsr imprime_cadena
-   0057 8E 02 4B      [ 3]  135 	ldx #x2
-   005A BD 00 68      [ 8]  136 	jsr imprime_cadena
-   005D 8E 02 4C      [ 3]  137 	ldx #y2
-   0060 BD 00 68      [ 8]  138 	jsr imprime_cadena
-   0063 35 10         [ 6]  139 	puls x
-   0065 35 02         [ 6]  140 	puls a
-   0067 39            [ 5]  141 	rts
-                            142 
-                            143 
-                            144 
-                            145 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            146 ; imprime_cadena                                                   ;
-                            147 ;     saca por la pantalla la cadena acabada en '\0 apuntada por X ;
-                            148 ;                                                                  ;
-                            149 ;   Entrada: X-direcciOn de comienzo de la cadena                  ;
-                            150 ;   Salida:  ninguna                                               ;
-                            151 ;   Registros afectados: X, CC.                                    ;
-                            152 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   0068                     153 imprime_cadena:
-   0068 34 02         [ 6]  154         pshs a
-   006A A6 80         [ 6]  155 sgte:   lda ,x+
-   006C 27 05         [ 3]  156         beq ret_imprime_cadena
-   006E B7 FF 00      [ 5]  157         sta 0xFF00
-   0071 20 F7         [ 3]  158         bra sgte
-   0073                     159 ret_imprime_cadena:
-   0073 35 02         [ 6]  160         puls a
-   0075 39            [ 5]  161         rts
-                            162 
-                            163 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            164 ; consigue_caracter_char                                           ;
-                            165 ;     guarda en la variable char el caracter introducido por el    ;
-                            166 ;     teclado.                                                     ;
-                            167 ;                                                                  ;
-                            168 ;   Entrada: ninguna                                               ;
-                            169 ;   Salida:  char                                                  ;
-                            170 ;   Registros afectados: X, CC.                                    ;
-                            171 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   0076                     172 consigue_caracter_char:
-   0076 34 02         [ 6]  173 	pshs a
-   0078 B6 FF 02      [ 5]  174 	lda 0xFF02
-   007B B7 02 48      [ 5]  175 	sta char
-   007E 35 02         [ 6]  176 	puls a
-   0080 39            [ 5]  177 	rts
+   0043 81 30         [ 2]  131 		cmpa #48
+   0045 25 B9         [ 3]  132 		blo coordenadas_iniciales
+   0047 81 39         [ 2]  133 		cmpa #57
+   0049 22 B5         [ 3]  134 		bhi coordenadas_iniciales
+                            135 		; Guardar el número en y2
+   004B B7 02 4C      [ 5]  136 		sta y2
+                            137 
+                            138 		
+                            139 		; Mostrar en pantalla las coordenadas introducidas
+   004E 8E 01 00      [ 3]  140 		ldx #texto_coordenadas_introducidas
+   0051 BD 00 71      [ 8]  141 		jsr imprime_cadena
+   0054 8E 02 49      [ 3]  142 		ldx #x1
+   0057 BD 00 71      [ 8]  143 		jsr imprime_cadena
+   005A 8E 02 4A      [ 3]  144 		ldx #y1
+   005D BD 00 71      [ 8]  145 		jsr imprime_cadena
+   0060 8E 02 4B      [ 3]  146 		ldx #x2
+   0063 BD 00 71      [ 8]  147 		jsr imprime_cadena
+   0066 8E 02 4C      [ 3]  148 		ldx #y2
+   0069 BD 00 71      [ 8]  149 		jsr imprime_cadena
+   006C 35 10         [ 6]  150 		puls x
+   006E 35 02         [ 6]  151 		puls a
+   0070 39            [ 5]  152 		rts
+                            153 
+                            154 
+                            155 
+                            156 
+                            157 
+                            158 
+                            159 
+                            160 
+                            161 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            162 ; imprime_cadena                                                   ;
+                            163 ;     saca por la pantalla la cadena acabada en '\0 apuntada por X ;
+                            164 ;                                                                  ;
+                            165 ;   Entrada: X-direcciOn de comienzo de la cadena                  ;
+                            166 ;   Salida:  ninguna                                               ;
+                            167 ;   Registros afectados: X, CC.                                    ;
+                            168 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   0071                     169 imprime_cadena:
+   0071 34 02         [ 6]  170         pshs a
+   0073 A6 80         [ 6]  171 sgte:   lda ,x+
+   0075 27 05         [ 3]  172         beq ret_imprime_cadena
+   0077 B7 FF 00      [ 5]  173         sta 0xFF00
+   007A 20 F7         [ 3]  174         bra sgte
+   007C                     175 ret_imprime_cadena:
+   007C 35 02         [ 6]  176         puls a
+   007E 39            [ 5]  177         rts
                             178 
-                            179 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            180 ; coordenadas_iniciales				  	           ;
-                            181 ;     guarda en las variables x1, y1, x2, y2 las coordenadas       ;
-                            182 ;     introducidas por el teclado.                                 ;
-                            183 ;     Mostrar en pantalla un texto que indique que se deben        ;
-                            184 ;     introducir las coordenadas y como introducirlas.             ;
-                            185 ;                                                                  ;
+                            179 
+                            180 
+                            181 
+                            182 
+                            183 
+                            184 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            185 ; consigue_caracter_char                                           ;
 ASxxxx Assembler V05.00  (Motorola 6809), page 7.
 Hexidecimal [16-Bits]
 
 
 
-                            186 ;   Entrada: ninguna                                               ;
-                            187 ;   Salida:  x1, y1, x2, y2                                        ;
-                            188 ;   Registros afectados: X, CC.                                    ;
-                            189 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                            190 
+                            186 ;     guarda en la variable char el caracter introducido por el    ;
+                            187 ;     teclado.                                                     ;
+                            188 ;                                                                  ;
+                            189 ;   Entrada: ninguna                                               ;
+                            190 ;   Salida:  char                                                  ;
+                            191 ;   Registros afectados: X, CC.                                    ;
+                            192 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            193 
+   007F                     194 consigue_caracter_char:
+   007F 34 02         [ 6]  195 	pshs a
+   0081 B6 FF 02      [ 5]  196 	lda 0xFF02
+   0084 B7 02 48      [ 5]  197 	sta char
+   0087 35 02         [ 6]  198 	puls a
+   0089 39            [ 5]  199 	rts
+                            200 
+                            201 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            202 ; coordenadas_iniciales				  	           ;
+                            203 ;     guarda en las variables x1, y1, x2, y2 las coordenadas       ;
+                            204 ;     introducidas por el teclado.                                 ;
+                            205 ;     Mostrar en pantalla un texto que indique que se deben        ;
+                            206 ;     introducir las coordenadas y como introducirlas.             ;
+                            207 ;                                                                  ;
+                            208 ;   Entrada: ninguna                                               ;
+                            209 ;   Salida:  x1, y1, x2, y2                                        ;
+                            210 ;   Registros afectados: X, CC.                                    ;
+                            211 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            212 
 ASxxxx Assembler V05.00  (Motorola 6809), page 8.
 Hexidecimal [16-Bits]
 
@@ -376,10 +398,10 @@ Symbol Table
     .__.$$$.       =   2710 L   |     .__.ABS.       =   0000 G
     .__.CPU.       =   0000 L   |     .__.H$L.       =   0001 L
   2 cero               024D R   |   2 char               0248 R
-  2 consigue_carac     0076 R   |   2 coordenadas_in     0000 R
-  2 imprime_cadena     0068 R   |   2 menu               0492 R
-  2 programa           04D9 GR  |   2 ret_imprime_ca     0073 R
-  2 sgte               006A R   |   2 tablero            024E R
+  2 consigue_carac     007F R   |   2 coordenadas_in     0000 R
+  2 imprime_cadena     0071 R   |   2 menu               0492 R
+  2 programa           04D9 GR  |   2 ret_imprime_ca     007C R
+  2 sgte               0073 R   |   2 tablero            024E R
   2 texto_coordena     0125 R   |   2 texto_coordena     0100 R
   2 x1                 0249 R   |   2 x2                 024B R
   2 y1                 024A R   |   2 y2                 024C R
@@ -391,7 +413,7 @@ Area Table
 
 [_CSEG]
    0 _CODE            size    0   flags C080
-   2 PROG             size   81   flags  908
+   2 PROG             size   8A   flags  908
 [_DSEG]
    1 _DATA            size    0   flags C0C0
 
