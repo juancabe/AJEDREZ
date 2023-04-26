@@ -8,6 +8,10 @@
 
 
 
+; Variable booleana coordenadas
+coordenadas:	.byte 0
+
+
 ; Texto coordenadas introducidas
 
 texto_coordenadas_introducidas:	.ascii "\nLas coordenadas introducidas son: \n"
@@ -35,7 +39,10 @@ x2:		.byte 0
 y2:		.byte 0
 cero:		.byte 0
 
+; Saltos
 
+saltos:		.ascii "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+		.byte 0
 
 ; Tablero de ajedrez
 tablero:	.ascii "\n --- --- --- --- --- --- --- --- \n"
@@ -60,96 +67,49 @@ tablero:	.ascii "\n --- --- --- --- --- --- --- --- \n"
 ;	(1) Introducir las coordenadas iniciales.
 ;	(2) Jugar.
 ;	(S) Salir.
-menu:		.ascii "\n\n (1) Introducir las coordenadas iniciales.\n"
-		.ascii " (2) Jugar.\n"
+
+menu:		.ascii "\n\n (1) Introducir las coordenadas iniciales."
+menu2:		.ascii "\n (2) Jugar.\n"
 		.ascii " (S) Salir.\n\n"
 		.byte   0       ; 0 es CTRL-@: fin de cadena
 
 
 
         	.globl programa
-programa:
-		ldx #menu
+programa:	
+		ldx #saltos
+		jsr imprime_cadena ; Imprime Saltos
+		jsr elige_menu ; Elige el menú a imprimir
 		jsr imprime_cadena ; Imprime el menú
 		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
-		lda char
-		cmpa #49 ; Código ASCII de 1
-		jsr coordenadas_iniciales ; Si se ha introducido 1, se introducen las coordenadas iniciales
-
-		;; Acabar el programa
+		jmp comprueba_menu
+		jmp programa
+salida:		;; Acabar el programa
 		clra
-        	sta 0xFF01
+	   	sta 0xFF01
 
         	.org 0xFFFE     ; Vector de RESET
         	.word programa
 
-coordenadas_iniciales:
-		pshs a
-		pshs x
-		ldx #texto_coordenadas_iniciales
-		jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; elige_menu                                                       ;
+;     guarda en X menu o menu2 segun el que haya que imprimir      ;
+;                                                                  ;
+;   Entrada: coordenadas			                   ;
+;   Salida:  X                                                     ;
+;   Registros afectados: X.                                        ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
-		lda char
-		; Comprobar que el caracter introducido es un número
-		cmpa #48
-		blo coordenadas_iniciales
-		cmpa #57
-		bhi coordenadas_iniciales
-		; Guardar el número en x1
-		sta x1
-
-
-		; Consigue el siguiente caracter
-		jsr consigue_caracter_char
-		lda char
-		; Comprobar que el caracter introducido es un número
-		cmpa #48
-		blo coordenadas_iniciales
-		cmpa #57
-		bhi coordenadas_iniciales
-		; Guardar el número en y1
-		sta y1
-
-
-		; Consigue el siguiente caracter
-		jsr consigue_caracter_char
-		lda char
-		; Comprobar que el caracter introducido es un número
-		cmpa #48
-		blo coordenadas_iniciales
-		cmpa #57
-		bhi coordenadas_iniciales
-		; Guardar el número en x2
-		sta x2
-
-
-		; Consigue el siguiente caracter
-		jsr consigue_caracter_char
-		lda char
-		; Comprobar que el caracter introducido es un número
-		cmpa #48
-		blo coordenadas_iniciales
-		cmpa #57
-		bhi coordenadas_iniciales
-		; Guardar el número en y2
-		sta y2
-
-
-		; Mostrar en pantalla las coordenadas introducidas
-		ldx #texto_coordenadas_introducidas
-		jsr imprime_cadena
-		ldx #x1
-		jsr imprime_cadena
-		puls x
-		puls a
-		rts
-
-
-
-
-
-
+elige_menu:
+		lda coordenadas
+		cmpa #1
+		beq es_uno
+		cmpa #0
+		beq es_cero
+es_uno:		ldx #menu2
+		jmp fin
+es_cero:	ldx #menu
+fin:		rts
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -170,7 +130,125 @@ ret_imprime_cadena:
         puls a
         rts
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; coordenadas_iniciales                                            ;
+;     lleva a la rutina de la opciOn elegida			   ;
+;                                                                  ;
+;   Entrada: X-direcciOn de comienzo de la cadena                  ;
+;   Salida:  ninguna                                               ;
+;   Registros afectados: X, CC.                                    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+coordenadas_iniciales:
+		pshs a
+		pshs x
+		ldx #texto_coordenadas_iniciales
+		jsr imprime_cadena ; Imprime el texto de las coordenadas iniciales
 
+		jsr consigue_caracter_char ; Consigue el caracter introducido y lo guarda en char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #55
+		bhi coordenadas_iniciales
+		; Guardar el número en x1
+		sta x1
+
+
+		; Consigue el siguiente caracter
+		jsr consigue_caracter_char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #55
+		bhi coordenadas_iniciales
+		; Guardar el número en y1
+		sta y1
+
+
+		; Consigue el siguiente caracter
+coord2:		jsr consigue_caracter_char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #55
+		bhi coordenadas_iniciales
+		cmpa x1
+		beq coord2
+		; Guardar el número en x2
+		sta x2
+
+
+		; Consigue el siguiente caracter
+		jsr consigue_caracter_char
+		lda char
+		; Comprobar que el caracter introducido es un número
+		cmpa #48
+		blo coordenadas_iniciales
+		cmpa #55
+		bhi coordenadas_iniciales
+		cmpa y1
+		beq coord2
+		; Guardar el número en y2
+		sta y2
+
+
+		; Mostrar en pantalla las coordenadas introducidas
+		ldx #texto_coordenadas_introducidas
+		jsr imprime_cadena
+		ldx #x1
+		jsr imprime_cadena
+		lda #1
+		sta coordenadas
+		puls x
+		puls a
+		jmp volver_de_salto
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; comprueba_menu                                                   ;
+;     lleva a la rutina de la opciOn elegida			   ;
+;                                                                  ;
+;   Entrada: X-direcciOn de comienzo de la cadena                  ;
+;   Salida:  ninguna                                               ;
+;   Registros afectados: X, CC.                                    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+comprueba_menu:
+        pshs a
+	lda coordenadas ; Comprobación de si se han introducido las coordenadas
+	cmpa #1
+	beq true
+	lda char
+	cmpa #49 ; Compara a con el código ASCII de 1
+	beq coordenadas_iniciales
+true:	lda char
+	cmpa #50 ; Compara a con el código ASCII de 2
+	beq jugar
+	cmpa #83 ; Compara a con el código ASCII de S
+	beq salir
+	puls a
+volver_de_salto:
+	jmp programa
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; salir				   	                           ;                                            ;
+;     lleva a la direccion de memoria de salida			   ;
+;                                                                  ;
+;   Entrada: nada				                   ;
+;   Salida:  ninguna                                               ;
+;   Registros afectados: nada .                                    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+salir:
+	jmp salida
+
+jugar:
+	ldx #tablero
+	jsr imprime_cadena ; Imprime el tablero
+	jsr consigue_caracter_char
+	jmp volver_de_salto
 
 
 
